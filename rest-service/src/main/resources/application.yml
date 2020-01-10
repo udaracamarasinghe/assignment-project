@@ -1,0 +1,33 @@
+datasource:
+  dbone:
+    url: jdbc:mysql://db_one:3306/user_db?useSSL=false&allowPublicKeyRetrieval=true
+    username: mysql
+    password: password
+    driverClassName: com.mysql.jdbc.Driver
+    testWhileIdle: true
+    validationQuery: SELECT 1 FROM DUAL
+    maxActive: 5
+    max-idle: 2
+    min-idle: 1
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      show_sql: false
+      
+  dbtwo:
+    url: jdbc:mysql://db_two:3306/user_db?useSSL=false&allowPublicKeyRetrieval=true
+    username: mysql
+    password: password
+    driverClassName: com.mysql.jdbc.Driver
+    testWhileIdle: true
+    validationQuery: SELECT 1 FROM DUAL
+    maxActive: 5
+    max-idle: 2
+    min-idle: 1
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      show_sql: false
+  
+
+jpa:
+  hibernate:
+    ddl-auto: validate
