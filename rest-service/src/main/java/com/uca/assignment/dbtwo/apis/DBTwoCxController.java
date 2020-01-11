@@ -1,9 +1,8 @@
-package com.uca.assignment.dbone.apis;
+package com.uca.assignment.dbtwo.apis;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uca.assignment.dbone.services.DBOneCustomerService;
+import com.uca.assignment.dbtwo.services.DBTwoCustomerService;
 import com.uca.assignment.dtos.CustomerDto;
 import com.uca.assignment.utili.apis.BaseRestAPIRespose;
 import com.uca.assignment.utili.services.DeleteCustomerServiceResponse;
@@ -24,11 +23,11 @@ import com.uca.assignment.utili.services.MakeCustomerResponse;
  *
  */
 @RestController
-@RequestMapping("/db-one-customer")
-public class DBOneCxController {
+@RequestMapping("/db-two-customer")
+public class DBTwoCxController {
 
 	@Autowired
-	private DBOneCustomerService customerService;
+	private DBTwoCustomerService customerService;
 
 	@GetMapping
 	public ResponseEntity<?> getAll() {
@@ -61,7 +60,7 @@ public class DBOneCxController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> makeCustomer(@Validated @RequestBody CustomerDto makeCustomer) {
+	public ResponseEntity<?> makeCustomer(@RequestBody CustomerDto makeCustomer) {
 		MakeCustomerResponse makeCustomerResponse = customerService.makeCustomer(makeCustomer);
 
 		switch (makeCustomerResponse.getStatus()) {

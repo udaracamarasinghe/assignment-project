@@ -6,6 +6,11 @@ import org.springframework.http.ResponseEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+/**
+ * 
+ * @author Udara Amarasinghe
+ *
+ */
 public class BaseRestAPIRespose {
 
 	private String status;

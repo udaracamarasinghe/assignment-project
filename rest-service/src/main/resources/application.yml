@@ -12,6 +12,7 @@ datasource:
     hibernate:
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       show_sql: false
+      auto: update
     schema: init-schema.sql
       
   dbtwo:
@@ -27,8 +28,5 @@ datasource:
     hibernate:
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       show_sql: false
-  
-
-jpa:
-  hibernate:
-    ddl-auto: validate
+      auto: update
+    schema: init-schema.sql

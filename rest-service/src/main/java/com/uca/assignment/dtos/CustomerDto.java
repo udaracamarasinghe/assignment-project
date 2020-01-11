@@ -2,8 +2,18 @@ package com.uca.assignment.dtos;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+/**
+ * 
+ * @author Udara Amarasinghe
+ *
+ */
 public class CustomerDto {
 
+	@NotNull
+	@NotEmpty
 	private String ic;
 
 	private String cxName;

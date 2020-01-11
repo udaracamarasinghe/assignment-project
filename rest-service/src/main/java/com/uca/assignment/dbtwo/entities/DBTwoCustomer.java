@@ -1,14 +1,21 @@
-package com.uca.assignment.dbone.entities;
+package com.uca.assignment.dbtwo.entities;
 
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * 
+ * @author Udara Amarasinghe
+ *
+ */
 @Entity
-public class Customer {
+@Table(name = "customer")
+public class DBTwoCustomer {
 
 	@Id
 	private String ic;

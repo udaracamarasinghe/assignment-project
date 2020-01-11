@@ -1,7 +1,12 @@
-package com.uca.assignment.dbone.services;
+package com.uca.assignment.utili.services;
 
 import com.uca.assignment.dtos.CustomerDto;
 
+/**
+ * 
+ * @author Udara Amarasinghe
+ *
+ */
 public class MakeCustomerResponse {
 
 	public enum Status {

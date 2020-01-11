@@ -1,54 +1,31 @@
 version: '3.5'
-
 services:
-
- db_one:
-    image: mysql:latest
+  mysql:
+    build: ./mysql-db
+    image: assesment-mysql-db:latest
     container_name: assingment-db-one-container
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: 'user_db'
-      MYSQL_USER: 'mysql'
-      MYSQL_PASSWORD: 'password'
-      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
     ports:
-      - '3406:3306'
-    networks: 
-      - backend
-      
- db_two:
-    image: mysql:latest
-    container_name: assingment-db-two-container
+    - 3406:3306
+    networks:
+    - backend
+  rest_service:
+    build: ./rest-service
+    image: assignment-rest-service:latest
+    container_name: assignment-rest-service-container
     restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: 'user_db'
-      MYSQL_USER: 'mysql'
-      MYSQL_PASSWORD: 'password'
-      MYSQL_ROOT_PASSWORD: 'password'
+    command: sh -c 'chmod +x /wait-for-it.sh && /wait-for-it.sh mysql:3306 -- java -jar app.jar'
+    depends_on:
+    - mysql
     ports:
-      - '3407:3306'
-    networks: 
-      - backend
-
-# rest_service:
-#   build: ./rest-service
-#   image: assignment-rest-service:latest
-#   container_name: assignment-rest-service-container
-#   restart: unless-stopped
-#   command: sh -c 'chmod +x /wait-for-it.sh && /wait-for-it.sh db_one:3306 -- java -jar app.jar'
-#   depends_on: 
-#      - db_one
-#   ports:
-#      - '8808:8080'
-#   links:
-#      - db_one
-#   networks: 
-#      - backend
-      
+    - 8808:8080
+    links:
+    - mysql
+    networks:
+    - backend
 networks:
-  backend:
-
-
-
- 
- 
+  backend: null

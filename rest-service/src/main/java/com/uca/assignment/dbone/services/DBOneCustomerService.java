@@ -9,35 +9,54 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.uca.assignment.dbone.entities.Customer;
-import com.uca.assignment.dbone.repositories.CustomerRepository;
-import com.uca.assignment.dbone.services.MakeCustomerResponse.Status;
+import com.uca.assignment.dbone.entities.DBOneCustomer;
+import com.uca.assignment.dbone.repositories.DBOneCustomerRepository;
 import com.uca.assignment.dtos.CustomerDto;
 import com.uca.assignment.utili.services.ConverterService;
+import com.uca.assignment.utili.services.DeleteCustomerServiceResponse;
+import com.uca.assignment.utili.services.HashingService;
+import com.uca.assignment.utili.services.MakeCustomerResponse;
 
+/**
+ * 
+ * @author Udara Amarasinghe
+ *
+ */
 @Service
-public class CustomerService {
+public class DBOneCustomerService {
 
 	@Autowired
-	private CustomerRepository customerRepository;
+	private DBOneCustomerRepository customerRepository;
 
 	@Autowired
 	private ConverterService converterService;
 
-	public List<CustomerDto> getAll() {
-		List<Customer> customers = customerRepository.findAll();
+	@Autowired
+	private HashingService hashingService;
 
-		return customers.stream().map(converterService::convertToDto).collect(Collectors.toList());
+	public List<CustomerDto> getAll() {
+		List<DBOneCustomer> customers = customerRepository.findAll();
+
+		return customers.stream().map(converterService::convertToDtoDBOne).collect(Collectors.toList());
 	}
 
 	public CustomerDto getByIc(String ic) {
-//		if (ic.equals("error"))
-//			throw new RuntimeException("Thrwed exception");
+		String hashedIC = hashingService.hash(ic);
 
-		Optional<Customer> opCus = customerRepository.findById(ic);
+		Optional<DBOneCustomer> opCus = customerRepository.findById(hashedIC);
 
 		if (opCus.isPresent()) {
-			return converterService.convertToDto(opCus.get());
+			return converterService.convertToDtoDBOne(opCus.get());
+		}
+
+		return null;
+	}
+
+	public CustomerDto getByHashedIc(String hashedIC) {
+		Optional<DBOneCustomer> opCus = customerRepository.findById(hashedIC);
+
+		if (opCus.isPresent()) {
+			return converterService.convertToDtoDBOne(opCus.get());
 		}
 
 		return null;
@@ -45,17 +64,20 @@ public class CustomerService {
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public MakeCustomerResponse makeCustomer(CustomerDto makeCustomer) {
-		if (customerRepository.existsById(makeCustomer.getIc())) {
+		String hashedIC = hashingService.hash(makeCustomer.getIc());
+
+		if (customerRepository.existsById(hashedIC)) {
 			return new MakeCustomerResponse(MakeCustomerResponse.Status.ALREADY_EXISTS,
 					"Customer already exists with ic: " + makeCustomer.getIc(), null);
 		}
 
-		Customer customer = converterService.convertToDto(makeCustomer);
+		DBOneCustomer customer = converterService.convertToDtoDBOne(makeCustomer);
+		customer.setIc(hashedIC);
 
-		Customer madeCustomer = customerRepository.save(customer);
+		DBOneCustomer madeCustomer = customerRepository.save(customer);
 
 		return new MakeCustomerResponse(MakeCustomerResponse.Status.SUCCESS, "Customer made successfuly.",
-				converterService.convertToDto(madeCustomer));
+				converterService.convertToDtoDBOne(madeCustomer));
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)

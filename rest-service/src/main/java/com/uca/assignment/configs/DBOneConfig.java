@@ -21,6 +21,11 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
+/**
+ * 
+ * @author Udara Amarasinghe
+ *
+ */
 @Configuration
 @EnableJpaRepositories(basePackages = "com.uca.assignment.dbone.repositories", entityManagerFactoryRef = "dboneEntityManager", transactionManagerRef = "dboneTransactionManager")
 public class DBOneConfig {
@@ -52,6 +57,9 @@ public class DBOneConfig {
 	@Value("${datasource.dbone.hibernate.show_sql}")
 	private String hibernate_show_sql;
 
+	@Value("${datasource.dbone.hibernate.auto}")
+	private String auto;
+
 	@Value("classpath:${datasource.dbone.schema}")
 	private Resource schemaScript;
 
@@ -59,7 +67,7 @@ public class DBOneConfig {
 	@Primary
 	public LocalContainerEntityManagerFactoryBean dboneEntityManager() {
 		HashMap<String, Object> properties = new HashMap<String, Object>();
-		properties.put("hibernate.hbm2ddl.auto", "update");
+		properties.put("hibernate.hbm2ddl.auto", auto);
 		properties.put("hibernate.dialect", dialect);
 		properties.put("hibernate.show_sql", hibernate_show_sql);
 		properties.put("hibernate.naming-strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
