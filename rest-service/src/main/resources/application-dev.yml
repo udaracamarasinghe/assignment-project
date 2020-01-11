@@ -1,6 +1,6 @@
 datasource:
   dbone:
-    url: jdbc:mysql://db_one:3306/user_db?useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3406/user_db?useSSL=false&allowPublicKeyRetrieval=true
     username: mysql
     password: password
     driverClassName: com.mysql.jdbc.Driver
@@ -15,7 +15,7 @@ datasource:
     schema: init-schema.sql
       
   dbtwo:
-    url: jdbc:mysql://db_two:3306/user_db?useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3406/user_db?useSSL=false&allowPublicKeyRetrieval=true
     username: mysql
     password: password
     driverClassName: com.mysql.jdbc.Driver
